@@ -1,0 +1,63 @@
+version: "1.0"
+
+services:
+  vue:
+    build: ./vue 
+    container_name: vue
+    stdin_open: true
+    command: npm run serve
+    ports:
+      - ${VUE_PORT}:${VUE_PORT}
+    depends_on:
+      - nest
+    restart: always
+    volumes:
+      - vue:/app/vue
+    networks:
+      - nesjs-network
+    env_file:
+      - .env
+  nest:
+    build: ./nest
+    container_name: nest
+    stdin_open: true
+    # command: npm run start
+    ports:
+      - ${NEST_PORT}:${NEST_PORT}
+    depends_on:
+      - mongodb
+    environment:
+      - DB_URL=mongodb://mongodb
+    volumes:
+      - nest:/app/nest
+    networks:
+      - nesjs-network
+    restart: always
+    env_file:
+      - .env
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    stdin_open: true
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - nesjs-network
+    env_file:
+      - .env
+
+volumes:
+  mongodb:
+  vue:
+  nest:
+
+networks:
+    nesjs-network:
+      driver: bridge
+ 
