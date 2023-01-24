@@ -10,6 +10,10 @@ Version du back et du front sous docker
 - [docker-compose](https://docs.docker.com/compose/install/)
 - ou une base de donnée installé localement dans notre cas Mongo Compas
 - un IDE (VScode)
+-rajouter un fichier .env à la racine du projet avec  les données suivantes:
+NEST_PORT=5000
+VUE_PORT=8080
+MONGO_PORT=27017
 
 ## Installation
 
